@@ -44,7 +44,7 @@ router.post('/post-ip', (req, res) => {
   const { ip, port, name } = req.body
   const time = Date.now()
 
-  return res.json({
+  return res.send({
     response: `${name} mapped to ip address ${ip} on port ${port} at ${time}.`
   })
 })
