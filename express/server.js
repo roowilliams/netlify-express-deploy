@@ -1,4 +1,5 @@
 'use strict'
+require('dotenv').config()
 const express = require('express')
 const serverless = require('serverless-http')
 const app = express()
@@ -19,9 +20,6 @@ client.connect(err => {
   client.close()
 })
 
-app.use(bodyParser.json())
-app.use('/.netlify/functions/server', router) // path must route to lambda
-
 const router = express.Router()
 router.get('/', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/html' })
@@ -36,6 +34,7 @@ router.get('/all-ips', (req, res) => res.json({ route: req.originalUrl }))
 
 // post ip address for project name
 router.post('/post-ip', (req, res) => {
+  console.log('route accessed')
   // save ip address to data store
   const { ip, port, name } = req.body
   const time = Date.now()
@@ -44,6 +43,9 @@ router.post('/post-ip', (req, res) => {
     response: `${name} mapped to ip address ${ip} on port ${port} at ${time}.`
   })
 })
+
+app.use(bodyParser.json())
+app.use('/.netlify/functions/server', router) // path must route to lambda
 
 module.exports = app
 module.exports.handler = serverless(app)
