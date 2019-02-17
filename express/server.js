@@ -28,7 +28,12 @@ router.get('/', (req, res) => {
 })
 
 // get ip address for project name
-router.get('/get-ip', (req, res) => res.json({ route: req.originalUrl }))
+router.get('/get-ip', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/html' })
+  res.write('<h1>Sup, IP ADDRESSES!</h1>')
+  res.end()
+  // res.json({ route: req.originalUrl })
+})
 
 router.get('/all-ips', (req, res) => res.json({ route: req.originalUrl }))
 
